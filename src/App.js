@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 
 import MoviesList from './components/MoviesList';
 import './App.css';
+import InputForm from './components/InputForm';
 
 localStorage.removeItem("id")
 let i = "";
@@ -53,6 +54,17 @@ function App() {
   useEffect(()=>{
     fetchMoviesHandler()
   },[])
+
+  const formDataHandler = (movie) => {
+    console.log(movie)
+  }
+  //useEffect takes call back function and dependencies hence we converted function into callback
+  //so after rendering function there will no movie data on screen as that would be executed on clicking
+  //button, but we want to get movie data on 1st time page is loaded , useEffect executes after whole 
+  //component is render hence by tranforming function in call back we passed it in useEffect to be ren
+  //der 1st timewhen screen loads
+  // const cbFunction = () => { }
+  //useEffect(cbFunction,[])
   
   let content  = <p>No Movie Found</p>
   if (movies.length > 0){
@@ -68,6 +80,7 @@ function App() {
 
   return (
     <React.Fragment>
+      <InputForm onAddMovie={formDataHandler}/>
       <section>
         <button onClick = {fetchMoviesHandler}>Fetch Movies</button>
         { error && <button onClick = {() => {
